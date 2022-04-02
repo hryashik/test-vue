@@ -14,10 +14,13 @@
         @click="createPost">Добавить
       </button>
     </form>
-    <div class="post" v-for="post in posts">
+    <div class="post"
+         v-for="post in posts"
+         v-if="posts.length">
       <div><strong>Название: </strong>{{ post.title }}</div>
       <div><strong>Описание: </strong>{{ post.body }}</div>
     </div>
+    <h3 v-else>Постов нет</h3>
   </div>
 </template>
 
