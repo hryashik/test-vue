@@ -3,14 +3,18 @@
       <h3 style="margin-bottom: 15px">Создание поста</h3>
       <div class="app__btns">
          <my-button @click="dialogFlag = true">Создать пост</my-button>
+         <my-select v-model="selectedSort"
+                    :options="sortOptions"
+         />
       </div>
       <my-dialog v-show="dialogFlag"
                  @hiddenDialog="hiddenDialog"
       >
          <post-form @create="createPost"/>
       </my-dialog>
-      <post-list :posts="posts"
-                 @remove="deletePost"/>
+      <post-list :posts="sortedPosts"
+                 @remove="deletePost"
+      />
       <p v-if="loadingFlag">Идет загрузка постов...</p>
    </div>
 </template>
@@ -30,7 +34,13 @@ export default {
       return {
          posts: [],
          dialogFlag: false,
-         loadingFlag: true
+         loadingFlag: true,
+         selectedSort: '',
+         sortOptions: [
+            {value: 'title', name: 'По названию'},
+            {value: 'body', name: 'По описанию'},
+            {value: 'id', name: 'По ID'}
+         ]
       }
    },
    methods: {
@@ -63,6 +73,15 @@ export default {
    mounted() {
       this.fetchPosts();
    },
+   computed: {
+      sortedPosts() {
+         if (this.selectedSort === 'id') {
+            return [...this.posts].sort((post1, post2) => post1[this.selectedSort] + post2[this.selectedSort])
+         } else {
+            return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+         }
+      }
+   }
 }
 </script>
 
@@ -78,7 +97,8 @@ export default {
 }
 
 .app__btns {
-
+   display: flex;
+   justify-content: space-between;
 }
 
 
