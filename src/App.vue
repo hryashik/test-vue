@@ -1,6 +1,9 @@
 <template>
    <div class="app">
-      <my-button @click="dialogFlag = true">Создать пост</my-button>
+      <h3 style="margin-bottom: 15px">Создание поста</h3>
+      <div class="app__btns">
+         <my-button @click="dialogFlag = true">Создать пост</my-button>
+      </div>
       <my-dialog v-show="dialogFlag"
                  @hiddenDialog="hiddenDialog"
       >
@@ -8,6 +11,7 @@
       </my-dialog>
       <post-list :posts="posts"
                  @remove="deletePost"/>
+      <p v-if="loadingFlag">Идет загрузка постов...</p>
    </div>
 </template>
 
@@ -15,6 +19,7 @@
 import postList from "@/components/postList";
 import postForm from "@/components/postForm";
 import MyDialog from "@/components/UI/MyDialog";
+import axios from "axios";
 
 export default {
    components: {
@@ -24,7 +29,8 @@ export default {
    data() {
       return {
          posts: [],
-         dialogFlag: false
+         dialogFlag: false,
+         loadingFlag: true
       }
    },
    methods: {
@@ -37,8 +43,26 @@ export default {
       },
       hiddenDialog(boolean) {
          this.dialogFlag = boolean
+      },
+      async fetchPosts() {
+         setTimeout(async() => {
+            try {
+               const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+                  params: {
+                     _limit: 10
+                  }
+               });
+               this.posts = response.data;
+               this.loadingFlag = false
+            } catch(e) {
+               alert(e)
+            }
+         }, 2000);
       }
-   }
+   },
+   mounted() {
+      this.fetchPosts();
+   },
 }
 </script>
 
@@ -51,6 +75,10 @@ export default {
 
 .app {
    padding: 15px;
+}
+
+.app__btns {
+
 }
 
 
