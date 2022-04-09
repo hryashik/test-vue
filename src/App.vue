@@ -18,9 +18,22 @@
       </my-dialog>
       <post-list :posts="sortedAndSearchQ"
                  @remove="deletePost"
+                 v-if="!loadingFlag"
       />
-      <p v-if="loadingFlag">Идет загрузка постов...</p>
+      <p v-else>Идет загрузка постов...</p>
+      <div class="page__wrapper">
+         <div class="page"
+              v-for="pageNumber of totalPages"
+              :key="pageNumber"
+              @click="changePage(pageNumber)"
+              :class="{
+                 'current__page': pageNumber === page
+         }">
+            {{ pageNumber }}
+         </div>
+      </div>
    </div>
+
 </template>
 
 <script>
@@ -45,7 +58,10 @@ export default {
             {value: 'body', name: 'По описанию'},
             {value: 'id', name: 'По ID'}
          ],
-         searchQuery: ''
+         searchQuery: '',
+         page: 1,
+         totalPages: 0,
+         limit: 10
       }
    },
    methods: {
@@ -60,19 +76,26 @@ export default {
          this.dialogFlag = boolean
       },
       async fetchPosts() {
+         this.loadingFlag = true;
          setTimeout(async() => {
             try {
                const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
                   params: {
-                     _limit: 10
+                     _limit: this.limit,
+                     _page: this.page
                   }
                });
                this.posts = response.data;
-               this.loadingFlag = false
+               this.loadingFlag = false;
+               this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
             } catch(e) {
                alert(e)
             }
-         }, 2000);
+         }, 1000);
+      },
+      changePage(pageNumber) {
+         this.page = pageNumber;
+         this.fetchPosts()
       }
    },
    mounted() {
@@ -95,8 +118,8 @@ export default {
 
 <style>
 * {
-   padding: 0px;
-   margin: 0px;
+   padding: 0;
+   margin: 0;
    box-sizing: border-box;
 }
 
@@ -108,8 +131,22 @@ export default {
    display: flex;
    justify-content: space-between;
 }
+
 .search-input {
    min-width: 400px;
 }
 
+.page__wrapper {
+   display: flex;
+   margin-top: 10px;
+}
+
+.page {
+   padding: 5px 10px;
+   cursor: pointer;
+}
+
+.current__page {
+   border: 2px cornflowerblue solid;
+}
 </style>
