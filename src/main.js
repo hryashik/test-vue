@@ -1,4 +1,7 @@
 import {createApp} from "vue";
-import app from './App'
+import App from './App'
+import components from "@/components/UI";
 
-createApp(app).mount('#app')
+const app = createApp(App);
+components.forEach(component => app.component(component.name, component));
+app.mount('#app');

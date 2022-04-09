@@ -23,6 +23,6 @@ export default {
 .post {
   margin-top: 5px;
   padding: 10px 15px;
-  border: 2px solid teal;
+  border: 2px solid cornflowerblue;
 }
 </style>
