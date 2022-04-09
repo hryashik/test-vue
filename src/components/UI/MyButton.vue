@@ -10,7 +10,6 @@ export default {
 
 <style scoped>
 .btn {
-  margin-bottom: 25px;
   padding: 10px 15px;
   background: none;
   border: 2px solid cornflowerblue;

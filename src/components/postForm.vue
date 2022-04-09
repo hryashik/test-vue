@@ -6,15 +6,12 @@
     <my-input
       placeholder="Описание поста"
       v-model="post.body"/>
-    <my-button @click="createPost">Добавить</my-button>
+    <my-button class="btn" @click="createPost">Добавить</my-button>
   </form>
 </template>
 
 <script>
-import MyInput from "@/components/UI/MyInput";
-import MyButton from "@/components/UI/MyButton";
 export default {
-  components: {MyButton, MyInput},
   data() {
     return {
       post: {
@@ -40,5 +37,8 @@ export default {
 form {
   display: flex;
   flex-direction: column;
+}
+.btn {
+  margin: 5px 0 15px;
 }
 </style>

@@ -1,15 +1,23 @@
 <template>
-  <div class="post"
-       v-for="post in posts"
-       v-if="posts.length">
-    <div><strong>Название: </strong>{{ post.title }}</div>
-    <div><strong>Описание: </strong>{{ post.body }}</div>
+  <div v-if="posts.length">
+    <h3>Список постов</h3>
+    <post-component v-for="post in posts"
+                    :key="post.id"
+                    :post="post"
+                    @remove="$emit('remove', post)"
+    />
   </div>
-  <h3 v-else>Постов нет</h3>
+  <h3 v-else>Список пуст</h3>
 </template>
 
 <script>
+import postComponent from "@/components/postComponent";
+
 export default {
+  components: {
+    postComponent
+  },
+
   props: {
     posts: {
       type: Array,
@@ -20,9 +28,5 @@ export default {
 </script>
 
 <style scoped>
-.post {
-  margin-top: 5px;
-  padding: 10px 15px;
-  border: 2px solid cornflowerblue;
-}
+
 </style>
