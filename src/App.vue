@@ -3,6 +3,10 @@
       <h3 style="margin-bottom: 15px">Создание поста</h3>
       <div class="app__btns">
          <my-button @click="dialogFlag = true">Создать пост</my-button>
+         <my-input class="search-input"
+                   v-model="searchQuery"
+                   placeholder="Поиск по названию"
+         />
          <my-select v-model="selectedSort"
                     :options="sortOptions"
          />
@@ -12,7 +16,7 @@
       >
          <post-form @create="createPost"/>
       </my-dialog>
-      <post-list :posts="sortedPosts"
+      <post-list :posts="sortedAndSearchQ"
                  @remove="deletePost"
       />
       <p v-if="loadingFlag">Идет загрузка постов...</p>
@@ -40,7 +44,8 @@ export default {
             {value: 'title', name: 'По названию'},
             {value: 'body', name: 'По описанию'},
             {value: 'id', name: 'По ID'}
-         ]
+         ],
+         searchQuery: ''
       }
    },
    methods: {
@@ -80,6 +85,9 @@ export default {
          } else {
             return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
          }
+      },
+      sortedAndSearchQ() {
+         return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
       }
    }
 }
@@ -100,6 +108,8 @@ export default {
    display: flex;
    justify-content: space-between;
 }
-
+.search-input {
+   min-width: 400px;
+}
 
 </style>

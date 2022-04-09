@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent>
-    <my-input
+    <my-input class="input"
       placeholder="Название поста"
       v-model="post.title"/>
-    <my-input
+    <my-input class="input"
       placeholder="Описание поста"
       v-model="post.body"/>
     <my-button class="btn" @click="createPost">Добавить</my-button>
@@ -40,5 +40,8 @@ form {
 }
 .btn {
   margin-top: 5px;
+}
+.input {
+   margin-bottom: 15px;
 }
 </style>

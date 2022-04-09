@@ -22,7 +22,6 @@ export default {
 
 <style scoped>
 input {
-  margin-bottom: 15px;
   border: 2px solid cornflowerblue;
   padding: 10px 15px;
 }
