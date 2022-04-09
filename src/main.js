@@ -1,6 +1,7 @@
 import {createApp} from "vue";
 import App from './App'
 import components from "@/components/UI";
+import axios from "axios";
 
 const app = createApp(App);
 components.forEach(component => app.component(component.name, component));

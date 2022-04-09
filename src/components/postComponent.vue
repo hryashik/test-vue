@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 .post {
-  margin-top: 5px;
+  margin-top: 10px;
   padding: 10px 15px;
   border: 2px solid cornflowerblue;
   display: flex;

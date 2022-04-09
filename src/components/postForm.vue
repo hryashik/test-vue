@@ -39,6 +39,6 @@ form {
   flex-direction: column;
 }
 .btn {
-  margin: 5px 0 15px;
+  margin-top: 5px;
 }
 </style>
