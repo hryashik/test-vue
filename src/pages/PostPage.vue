@@ -3,7 +3,7 @@
       <h3 style="margin-bottom: 15px">Создание поста</h3>
       <div class="app__btns">
          <my-button @click="dialogFlag = true">Создать пост</my-button>
-         <my-input class="search-input"
+         <my-input v-focus class="search-input"
                    v-model="searchQuery"
                    placeholder="Поиск по названию"
          />
